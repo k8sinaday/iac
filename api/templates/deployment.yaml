@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: api
+              key: mongo_uri
+        image: 10.0.2.2:5000/k8sinaday_api:1.0.0
+        ports:
+        - containerPort: 9000
